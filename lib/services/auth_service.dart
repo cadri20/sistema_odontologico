@@ -1,12 +1,20 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../app/app.locator.dart';
+import 'config_service.dart';
+
 class AuthService {
   String _jwtToken = '';
-  String _baseUrl = 'http://localhost:1337/api/auth/local';
+  late String _baseUrl;
   String get jwtToken => _jwtToken;
   set jwtToken(String value) {
     _jwtToken = value;
+  }
+
+  AuthService(){
+    final apiUrl = locator<ConfigService>().configMap['url_backend']!;
+    _baseUrl = "$apiUrl/api/auth/local";
   }
 
   Future<bool> login(String usuario, String password) async {
@@ -23,6 +31,7 @@ class AuthService {
       _jwtToken = jsonResponse['jwt'];
       return true;
     } else {
+      print(response.body);
       return false;
     }
   }

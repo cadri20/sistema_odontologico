@@ -59,10 +59,14 @@ class EditarConsultaViewModel extends BaseViewModel implements Initialisable {
 
   void guardarConsulta() {
     if (isEditing) {
-      _consultaService.updateConsulta(_consultaEditar);
+      _consultaService.updateConsulta(_consultaEditar).then(
+          (value) => _navigationService.back(result: true)
+      );
     } else {
-      _consultaService.addConsulta(_consultaEditar);
+      _consultaService.addConsulta(_consultaEditar).then(
+          (value) => _navigationService.back(result: true)
+      );
     }
-    _navigationService.back(result: true);
+    //_navigationService.back(result: true);
   }
 }

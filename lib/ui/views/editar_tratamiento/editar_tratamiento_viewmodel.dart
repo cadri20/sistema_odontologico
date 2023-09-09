@@ -69,12 +69,15 @@ class EditarTratamientoViewModel extends BaseViewModel {
     tratamientoEditado.idPaciente = _idPaciente;
 
     if (_isEditing) {
-      _tratamientoService.updateTratamiento(tratamientoEditado);
+      _tratamientoService.updateTratamiento(tratamientoEditado).then(
+          (value) => _navigationService.back(result: true)
+      );
     } else {
-      _tratamientoService.createTratamiento(tratamientoEditado);
-      print(
-          "Se creo el tratamiento ${tratamientoEditado.actividad} con idPaciente ${tratamientoEditado.idPaciente}");
+      _tratamientoService.createTratamiento(tratamientoEditado).then(
+          (value) => _navigationService.back(result: true)
+      );
+
     }
-    _navigationService.back(result: true);
+
   }
 }

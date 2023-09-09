@@ -15,7 +15,6 @@ class TratamientoDaoRest implements TratamientoDao {
   String _token;
   TratamientoDaoRest(this._token){
     baseUrl = "${locator<ConfigService>().configMap['url_backend']!}/api/tratamientos";
-
   }
 
   @override

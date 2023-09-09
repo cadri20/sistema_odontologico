@@ -34,7 +34,9 @@ class ConfigService {
     print(startCommand);
     backendProcess = await Process.start(
         startCommand, [],
-        runInShell: true);
+        runInShell: true,
+      mode: ProcessStartMode.detachedWithStdio
+    );
     print("start backend");
 
     backendProcess.stdout.transform(utf8.decoder).listen((data) {
@@ -44,14 +46,15 @@ class ConfigService {
       }
       if (data.contains("error")) {
         if(data.contains("port")){
-
+          onError("El puerto 1337 esta ocupado");
         }
       }
     });
 
+    /*
     backendProcess.exitCode.then((value) {
       onError("Backend terminado con exit code $value");
-    });
+    });*/
   }
 
   Future<void> stopBackend() async{
