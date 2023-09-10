@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_window_close/flutter_window_close.dart';
+import 'package:http/http.dart' as http;
 
 class ConfigService {
   Map<String, String> _configMap = {};
@@ -55,6 +55,11 @@ class ConfigService {
     backendProcess.exitCode.then((value) {
       onError("Backend terminado con exit code $value");
     });*/
+  }
+
+  Future<bool> checkBackend() async{
+    var response = await http.get(Uri.parse(_configMap['url_backend']!));
+    return response.statusCode == 200;
   }
 
   Future<void> stopBackend() async{

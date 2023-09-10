@@ -30,7 +30,14 @@ class StartupViewModel extends BaseViewModel {
 
     _configService.loadConfig();
     //inal config = _configService.configMap;
-    _configService.startBackend(() {
+    _configService.startBackend(() async{
+      var backendIsRunning = await _configService.checkBackend();
+      if(!backendIsRunning){
+        errorInStartup = true;
+        errorMessage = "La base de datos no ha sido iniciada";
+        rebuildUi();
+        return;
+      }
       _navigationService.replaceWith(Routes.loginView);
     }, (error) {
       /*

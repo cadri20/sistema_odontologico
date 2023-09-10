@@ -34,12 +34,14 @@ class LoginView extends StackedView<LoginViewModel> {
                       labelText: 'Usuario',
                       border: OutlineInputBorder(),
                     ),
+                    controller: viewModel.usuarioController,
                     onChanged: (value) {
                       viewModel.usuario = value;
                     },
                   ),
                   TextFormField(
                     obscureText: !viewModel.isPasswordVisible,
+                    controller: viewModel.passwordController,
                     decoration: InputDecoration(
                       labelText: 'Contraseña',
                       border: const OutlineInputBorder(),

@@ -19,6 +19,8 @@ class LoginViewModel extends BaseViewModel {
     rebuildUi();
   }
 
+  TextEditingController usuarioController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   String _password = "";
 
   String get password => _password;
@@ -49,6 +51,11 @@ class LoginViewModel extends BaseViewModel {
   }
 
   void navigateToHome() {
+    usuarioController.text = "";
+    passwordController.text = "";
+    _usuario = "";
+    _password = "";
+    rebuildUi();
     _navigationService.navigateToPacientesView();
   }
 }
