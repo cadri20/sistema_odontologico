@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sistema_odontologico/ui/common/personal_data_widget.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../model/consulta.dart';
@@ -26,10 +27,21 @@ class DatosTratamientoView extends StackedView<DatosTratamientoViewModel> {
           padding: const EdgeInsets.only(left: 25.0, right: 25.0),
           child: Column(
             children: [
-              _buildDatosTratamiento(tratamiento, viewModel),
+              _buildDatosTratamientoWithMap(tratamiento, viewModel),
               _buildConsultasSection(viewModel.consultas, viewModel, context),
             ],
           )),
+    );
+  }
+
+  Widget _buildDatosTratamientoWithMap(TratamientoAndPaciente tratamiento, DatosTratamientoViewModel viewModel) {
+    return PersonalData(
+      {
+        'Actividad': tratamiento.tratamiento.actividad,
+        'Costo': tratamiento.tratamiento.costo.toString(),
+        'Paciente': tratamiento.paciente.nombre,
+        'Saldo': viewModel.saldo.toString(),
+      }
     );
   }
 

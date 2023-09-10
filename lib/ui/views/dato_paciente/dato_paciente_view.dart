@@ -6,6 +6,7 @@ import '../../../model/consulta.dart';
 import '../../../model/paciente.dart';
 import '../../../model/tratamiento.dart';
 import '../../common/delete_dialog.dart';
+import '../../common/personal_data_widget.dart';
 import 'dato_paciente_viewmodel.dart';
 
 class DatoPacienteView extends StackedView<DatoPacienteViewModel> {
@@ -26,7 +27,7 @@ class DatoPacienteView extends StackedView<DatoPacienteViewModel> {
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
         child: Column(
           children: [
-            _buildDatosPaciente(paciente),
+            _buildDatosPacienteWithMap(paciente),
             _buildTratamientosSection(
                 viewModel.tratamientos, context, viewModel),
           ],
@@ -150,6 +151,18 @@ class DatoPacienteView extends StackedView<DatoPacienteViewModel> {
     );
   }
 
+  Widget _buildDatosPacienteWithMap(Paciente paciente){
+    return PersonalData(
+      {
+        'Nombre': paciente.nombre,
+        'Cedula': paciente.cedula,
+        'Celular': paciente.celular,
+        'Fecha de nacimiento': DateFormat('dd/MM/yyyy').format(paciente.fechaNacimiento),
+        'Edad': paciente.edad.toString(),
+        'Direccion': paciente.direccion,
+      }
+    );
+  }
   Widget _buildDatosPaciente(Paciente paciente) {
     return Container(
       margin: EdgeInsets.only(top: 16),
