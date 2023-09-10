@@ -20,12 +20,15 @@ class PacientesViewModel extends BaseViewModel implements Initialisable {
 
   Future<void> fetchPacientes() async {
     _pacientes = await _pacienteService.getPacientes();
+    setBusy(false);
     rebuildUi();
   }
 
   @override
   void initialise() {
+    setBusy(true);
     fetchPacientes();
+
     print("PacientesViewModel initialise");
   }
 

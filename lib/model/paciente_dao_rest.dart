@@ -33,7 +33,7 @@ class PacienteDaoRest implements PacienteDao {
   Future<List<Paciente>> getPacientes() async {
     final response = await http
         .get(Uri.parse("$baseUrl?pagination[pageSize]=1000"), headers: {'Authorization': 'Bearer $_token'});
-    print("response: ${response.body}");
+    //print("response: ${response.body}");
     final jsonDecoded = json.decode(response.body)['data'];
 
     final pacientes = <Paciente>[];

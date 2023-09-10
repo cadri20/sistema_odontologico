@@ -54,7 +54,7 @@ class PacientesView extends StackedView<PacientesViewModel> {
               const SizedBox(
                 height: 20,
               ),
-              _buildPacientesTable(viewModel.pacientes, viewModel, context),
+              viewModel.isBusy ? const CircularProgressIndicator() : _buildPacientesTable(viewModel.pacientes, viewModel, context),
             ],
           ),
         ));

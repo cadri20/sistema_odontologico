@@ -51,11 +51,13 @@ class LoginViewModel extends BaseViewModel {
   }
 
   void navigateToHome() {
-    usuarioController.text = "";
-    passwordController.text = "";
-    _usuario = "";
-    _password = "";
-    rebuildUi();
-    _navigationService.navigateToPacientesView();
+    _navigationService.navigateToPacientesView().then((value) {
+      setBusy(false);
+      usuarioController.text = "";
+      passwordController.text = "";
+      _usuario = "";
+      _password = "";
+      rebuildUi();
+    });
   }
 }
