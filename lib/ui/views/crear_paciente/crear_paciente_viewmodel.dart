@@ -19,7 +19,7 @@ class CrearPacienteViewModel extends BaseViewModel {
 
   final TextEditingController nombreController;
   final bool isEditing;
-  DateTime fechaNacimiento;
+  DateTime? fechaNacimiento;
   final TextEditingController direccionController;
 
   CrearPacienteViewModel(this._pacienteEditado, this.isEditing)

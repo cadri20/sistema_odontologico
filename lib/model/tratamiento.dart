@@ -36,9 +36,7 @@ class Tratamiento {
           costo: json['attributes']['costo'] is double
               ? json['attributes']['costo']
               : json['attributes']['costo'].toDouble(),
-          idPaciente: json['attributes']['paciente'] == null
-              ? 0
-              : json['attributes']['paciente']['id'],
+          idPaciente: json['attributes']['paciente'] ?? 0,
         );
 
   Map<String, dynamic> toJson() =>

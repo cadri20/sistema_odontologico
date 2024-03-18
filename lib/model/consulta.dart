@@ -22,7 +22,7 @@ class Consulta {
   Consulta.fromJson(Map<String, dynamic> json)
       : this(
           id: json['id'],
-          idTratamiento: json['attributes']['tratamiento']['id'],
+          idTratamiento: json['attributes']['tratamiento'],
           fecha: DateTime.parse(json['attributes']['fecha']),
           actividadRealizada: json['attributes']['actividad_realizada'],
           abono: json['attributes']['abono'] is double

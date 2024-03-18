@@ -86,7 +86,7 @@ class CrearPacienteView extends StackedView<CrearPacienteViewModel> {
                   autovalidateMode: AutovalidateMode.always,
                   validator: (e) =>
                       (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-                  onDateSelected: (DateTime value) {
+                  onDateSelected: (DateTime? value) {
                     viewModel.pacienteEditado =
                         viewModel.pacienteEditado.copy(fechaNacimiento: value);
                   },

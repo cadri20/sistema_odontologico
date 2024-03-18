@@ -3,12 +3,17 @@ import 'dart:math';
 class Paciente {
   int id;
   String nombre;
-  DateTime fechaNacimiento;
+  DateTime? fechaNacimiento;
   String direccion;
   String cedula;
   String celular;
 
-  int get edad => DateTime.now().year - fechaNacimiento.year;
+  int? get edad{
+    if(fechaNacimiento == null) return null;
+    final now = DateTime.now();
+    final age = now.year - fechaNacimiento!.year;
+    return age;
+  }
 
   Paciente({
     required this.id,
@@ -31,7 +36,7 @@ class Paciente {
       : this(
             id: 0,
             nombre: '',
-            fechaNacimiento: DateTime.now(),
+            fechaNacimiento: null,
             direccion: '',
             cedula: '',
             celular: '');
@@ -58,15 +63,15 @@ class Paciente {
       : id = json['id'],
         nombre = json['attributes']['nombre'],
         fechaNacimiento =
-            DateTime.parse(json['attributes']['fecha_nacimiento']),
-        direccion = json['attributes']['direccion'],
-        cedula = json['attributes']['cedula'],
-        celular = json['attributes']['celular'];
+        json['attributes']['fecha_nacimiento'] != null ? DateTime.parse(json['attributes']['fecha_nacimiento']) : null,
+        direccion = json['attributes']['direccion'] ?? '',
+        cedula = json['attributes']['cedula'] ?? '',
+        celular = json['attributes']['celular'] ?? '';
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{
       'nombre': nombre,
-      'fecha_nacimiento': fechaNacimiento.toString(),
+      'fecha_nacimiento': fechaNacimiento?.toString(),
       'direccion': direccion,
       'cedula': cedula,
       'celular': celular

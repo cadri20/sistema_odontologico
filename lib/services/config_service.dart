@@ -58,7 +58,7 @@ class ConfigService {
   }
 
   Future<bool> checkBackend() async{
-    var response = await http.get(Uri.parse(_configMap['url_backend']!));
+    var response = await http.get(Uri.parse(_configMap['url_backend']! + "/api/pacientes"));
     return response.statusCode == 200;
   }
 

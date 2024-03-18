@@ -25,8 +25,9 @@ class AuthService {
       },
       body: jsonEncode({'identifier': usuario, 'password': password}),
     );
-    final jsonResponse = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
       _jwtToken = jsonResponse['jwt'];
       return true;
     }else{

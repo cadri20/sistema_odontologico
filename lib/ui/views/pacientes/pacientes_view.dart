@@ -10,54 +10,77 @@ import 'pacientes_viewmodel.dart';
 class PacientesView extends StackedView<PacientesViewModel> {
   const PacientesView({Key? key}) : super(key: key);
 
+  Future<bool> _onWillPop(BuildContext context) async{
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Salir'),
+        content: const Text('¿Esta seguro de que desea cerrar sesión?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Si'),
+          ),
+        ],
+      ),
+    )) ?? false;
+  }
+
   @override
   Widget builder(
     BuildContext context,
     PacientesViewModel viewModel,
     Widget? child,
   ) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Pacientes'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      fixedSize: MaterialStateProperty.all(const Size(150, 50)),
-                    ),
-                    onPressed: () {
-                      viewModel.navigateToCrearPaciente();
-                    },
-                    child: const Text('Nuevo Paciente'),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Buscar Paciente',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.search),
-                ),
-                onChanged: (value) {
-                  viewModel.searchPacientes(value);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              viewModel.isBusy ? const CircularProgressIndicator() : _buildPacientesTable(viewModel.pacientes, viewModel, context),
-            ],
+    return WillPopScope(
+      onWillPop: () => _onWillPop(context),
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Pacientes'),
           ),
-        ));
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        fixedSize: MaterialStateProperty.all(const Size(150, 50)),
+                      ),
+                      onPressed: () {
+                        viewModel.navigateToCrearPaciente();
+                      },
+                      child: const Text('Nuevo Paciente'),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Buscar Paciente',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                  onChanged: (value) {
+                    viewModel.searchPacientes(value);
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                viewModel.isBusy ? const CircularProgressIndicator() : _buildPacientesTable(viewModel.pacientes, viewModel, context),
+              ],
+            ),
+          )),
+    );
   }
 
   Widget _buildPacientesTable(List<Paciente> paciente,
@@ -98,7 +121,7 @@ class PacientesView extends StackedView<PacientesViewModel> {
                   ),
                   onSort: (_, __) {
                     viewModel.pacientes.sort(
-                        (a, b) => a.fechaNacimiento.compareTo(b.fechaNacimiento));
+                        (a, b) => (a.fechaNacimiento ?? DateTime.fromMicrosecondsSinceEpoch(0)).compareTo(b.fechaNacimiento ?? DateTime.fromMicrosecondsSinceEpoch(0)));
                     viewModel.pacientes = viewModel.pacientes;
                   }),
               DataColumn(label: Text('Edad')),
@@ -114,9 +137,9 @@ class PacientesView extends StackedView<PacientesViewModel> {
                           DataCell(Text(paciente.cedula)),
                           DataCell(Text(paciente.celular)),
                           DataCell(Text(paciente.direccion)),
-                          DataCell(Text(DateFormat('dd/MM/yyyy')
-                              .format(paciente.fechaNacimiento))),
-                          DataCell(Text(paciente.edad.toString())),
+                          DataCell(Text(paciente.fechaNacimiento == null ? "" : DateFormat('dd/MM/yyyy')
+                              .format(paciente.fechaNacimiento!))),
+                          DataCell(Text(paciente.edad == null ? "" : paciente.edad.toString())),
                           DataCell(
                             Row(
                               children: [

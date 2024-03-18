@@ -155,14 +155,15 @@ class DatoPacienteView extends StackedView<DatoPacienteViewModel> {
     return PersonalData(
       {
         'Nombre': paciente.nombre,
-        'Cedula': paciente.cedula,
-        'Celular': paciente.celular,
-        'Fecha de nacimiento': DateFormat('dd/MM/yyyy').format(paciente.fechaNacimiento),
-        'Edad': paciente.edad.toString(),
-        'Direccion': paciente.direccion,
+        'Cedula': paciente.cedula ?? "",
+        'Celular': paciente.celular ?? "",
+        'Fecha de nacimiento': paciente.fechaNacimiento != null ? DateFormat('dd/MM/yyyy').format(paciente.fechaNacimiento!) : "",
+        'Edad': paciente.edad == null ? "" : paciente.edad.toString(),
+        'Direccion': paciente.direccion ?? "",
       }
     );
   }
+
   Widget _buildDatosPaciente(Paciente paciente) {
     return Container(
       margin: EdgeInsets.only(top: 16),

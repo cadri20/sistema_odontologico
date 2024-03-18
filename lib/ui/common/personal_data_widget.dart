@@ -41,12 +41,27 @@ class PersonalData extends StatelessWidget {
 
   Widget _buildOddData() {
     return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          _buildData(_dataMap.entries.elementAt(0)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for(int i = 0; i < _dataMap.entries.length ~/ 2; i++)
+                  _buildData(_dataMap.entries.elementAt(i))
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for(int i = _dataMap.entries.length ~/ 2; i < _dataMap.entries.length; i++)
+                _buildData(_dataMap.entries.elementAt(i))
+            ],
+          ),
         ],
-      ),
+      )
     );
   }
 
