@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sistema_odontologico/app/app.locator.dart';
 import 'package:sistema_odontologico/app/app.router.dart';
@@ -16,6 +15,7 @@ class StartupViewModel extends BaseViewModel {
 
   bool errorInStartup = false;
   String errorMessage = "";
+  String backendMessage = "";
 
   // Place anything here that needs to happen before we get into the application
 
@@ -30,6 +30,12 @@ class StartupViewModel extends BaseViewModel {
 
     _configService.loadConfig();
     //inal config = _configService.configMap;
+
+    if(await _configService.checkBackend()){
+      _navigationService.replaceWith(Routes.loginView);
+      return;
+    }
+
     _configService.startBackend(() async{
       var backendIsRunning = await _configService.checkBackend();
       if(!backendIsRunning){
@@ -40,23 +46,14 @@ class StartupViewModel extends BaseViewModel {
       }
       _navigationService.replaceWith(Routes.loginView);
     }, (error) {
-      /*
-      if(error.contains("port")){
-        print("port error se va a intentar otra vez");
-        Future.delayed(Duration(seconds: 60),(){
-          _configService.startBackend(() {
-            _navigationService.replaceWith(Routes.loginView);
-          }, (error) {
-            errorInStartup = true;
-            errorMessage = error;
-            rebuildUi();
-          });
-        });
-        return;
-      }*/
       errorInStartup = true;
       errorMessage = error;
       rebuildUi();
-    });
+    },
+        (message){
+      backendMessage = message;
+      rebuildUi();
+        }
+    );
   }
 }

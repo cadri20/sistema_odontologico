@@ -24,84 +24,97 @@ class EditarConsultaView extends StackedView<EditarConsultaViewModel> {
       appBar: AppBar(
         title: Text(isEditing ? 'Editar Consulta' : 'Crear Consulta'),
       ),
-      body: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    DateTimeFormField(
-                      initialValue: viewModel.consultaEditar.fecha,
-                      decoration: const InputDecoration(
-                        labelText: 'Fecha',
-                        border: OutlineInputBorder(),
-                      ),
-                      mode: DateTimeFieldPickerMode.date,
-                      onDateSelected: (DateTime value) {
-                        viewModel.consultaEditar =
-                            viewModel.consultaEditar.copy(fecha: value);
-                      },
-                      dateFormat: DateFormat('dd/MM/yyyy'),
-                    ),
-                    TextFormField(
-                      initialValue: viewModel.consultaEditar.actividadRealizada,
-                      decoration: const InputDecoration(
-                        labelText: 'Actividad Realizada',
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (value) {
-                        viewModel.consultaEditar = viewModel.consultaEditar
-                            .copy(actividadRealizada: value);
-                      },
-                    ),
-                    //TextField en formaato dinero
-                    TextFormField(
-                      initialValue: viewModel.consultaEditar.abono == 0
-                          ? ''
-                          : '\$${viewModel.consultaEditar.abono}',
-                      decoration: const InputDecoration(
-                        labelText: 'Abono',
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (value) {
-                        //Si tiene simbolo de dolar quitarlo y transformarlo a double
-                        if (value.contains('\$')) {
-                          value = value.replaceAll('\$', '');
-                        }
-                        double abono;
-                        try {
-                          abono = double.parse(value);
-                        } catch (e) {
-                          abono = 0;
-                        }
-                        viewModel.consultaEditar =
-                            viewModel.consultaEditar.copy(abono: abono);
-                      },
-                    ),
-                    TextFormField(
-                      initialValue: viewModel.consultaEditar.indicaciones,
-                      decoration: const InputDecoration(
-                        labelText: 'Indicaciones',
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (value) {
-                        viewModel.consultaEditar =
-                            viewModel.consultaEditar.copy(indicaciones: value);
-                      },
-                    ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        fixedSize:
-                            MaterialStateProperty.all(const Size(200, 50)),
-                      ),
-                      onPressed: () {
-                        viewModel.guardarConsulta();
-                      },
-                      child: const Text('Guardar'),
-                    )
-                  ]))),
+      body: Center(
+        child: Container(
+            height: 500,
+            width: 500,
+            padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+            child: Card(
+              child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        DateTimeFormField(
+                          initialValue: viewModel.consultaEditar.fecha,
+                          decoration: const InputDecoration(
+                            labelText: 'Fecha',
+                            border: OutlineInputBorder(),
+                          ),
+                          mode: DateTimeFieldPickerMode.date,
+                          onDateSelected: (DateTime value) {
+                            viewModel.consultaEditar =
+                                viewModel.consultaEditar.copy(fecha: value);
+                          },
+                          dateFormat: DateFormat('dd/MM/yyyy'),
+                        ),
+                        TextFormField(
+                          minLines: 2,
+                          maxLines: 3,
+                          initialValue: viewModel.consultaEditar.actividadRealizada,
+                          decoration: const InputDecoration(
+                            labelText: 'Actividad Realizada',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (value) {
+                            viewModel.consultaEditar = viewModel.consultaEditar
+                                .copy(actividadRealizada: value);
+                          },
+                        ),
+                        //TextField en formaato dinero
+                        TextFormField(
+                          initialValue: viewModel.consultaEditar.abono == 0
+                              ? ''
+                              : '\$${viewModel.consultaEditar.abono}',
+                          decoration: const InputDecoration(
+                            labelText: 'Abono',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (value) {
+                            //Si tiene simbolo de dolar quitarlo y transformarlo a double
+                            if (value.contains('\$')) {
+                              value = value.replaceAll('\$', '');
+                            }
+                            double abono;
+                            try {
+                              abono = double.parse(value);
+                            } catch (e) {
+                              abono = 0;
+                            }
+                            viewModel.consultaEditar =
+                                viewModel.consultaEditar.copy(abono: abono);
+                          },
+                        ),
+                        TextFormField(
+                          initialValue: viewModel.consultaEditar.indicaciones,
+                          decoration: const InputDecoration(
+                            labelText: 'Indicaciones',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (value) {
+                            viewModel.consultaEditar =
+                                viewModel.consultaEditar.copy(indicaciones: value);
+                          },
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                fixedSize:
+                                    MaterialStateProperty.all(const Size(200, 50)),
+                              ),
+                              onPressed: () {
+                                viewModel.guardarConsulta();
+                              },
+                              child: const Text('Guardar'),
+                            ),
+                          ],
+                        )
+                      ])),
+            )),
+      ),
     );
   }
 

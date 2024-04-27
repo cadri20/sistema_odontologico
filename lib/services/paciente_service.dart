@@ -37,4 +37,8 @@ class PacienteService {
   Future<List<Paciente>> searchPacientes(String nombre) async {
     return _pacienteDao.searchPacientes(nombre);
   }
+
+  Future<List<Paciente>> getPacientesOrderedByName(bool ascending){
+    return _pacienteDao.getPacientesOrderedByName(ascending);
+  }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:sistema_odontologico/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -67,16 +66,12 @@ class PacientesViewModel extends BaseViewModel implements Initialisable {
   }
 
   void sortByNombre(bool ascending) {
-    if (ascending) {
-      _pacientes.sort((a, b) {
-        return _getApellido(a.nombre).compareTo(_getApellido(b.nombre));
-      });
-    } else {
-      _pacientes.sort((a, b) {
-        return _getApellido(b.nombre).compareTo(_getApellido(a.nombre));
-      });
-    }
-    rebuildUi();
+    setBusy(true);
+    _pacienteService.getPacientesOrderedByName(ascending).then((value) {
+      _pacientes = value;
+      setBusy(false);
+      rebuildUi();
+    });
   }
 
   String _getApellido(String nombre) {

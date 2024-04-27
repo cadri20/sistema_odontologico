@@ -1,1 +1,6 @@
-{"url_backend":"http://localhost:5085","backend_start_command":"echo Welcome back!"}
+{
+  "url_backend":"http://localhost:5000",
+  "backend_start_command":"D:\\AppsEscritorio\\sistema_odontologico\\sistema_odontologico_backend\\SistemaOdontologicoApi.exe",
+  "backend_working_directory":"D:\\AppsEscritorio\\sistema_odontologico\\sistema_odontologico_backend",
+  "backend_success_message": "Now listening on"
+}

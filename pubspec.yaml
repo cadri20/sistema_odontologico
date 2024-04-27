@@ -16,7 +16,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   http: ^1.1.0
-  flutter_window_close: ^0.2.2
 
 dev_dependencies:
   build_runner: ^2.4.5

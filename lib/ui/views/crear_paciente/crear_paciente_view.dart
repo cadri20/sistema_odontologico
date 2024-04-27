@@ -23,85 +23,96 @@ class CrearPacienteView extends StackedView<CrearPacienteViewModel> {
       appBar: AppBar(
         title: Text(isEditing ? 'Editar Paciente' : 'Crear Paciente'),
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TextFormField(
-                  initialValue: viewModel.pacienteEditado.nombre,
-                  decoration: const InputDecoration(
-                    labelText: 'Nombre',
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    viewModel.pacienteEditado =
-                        viewModel.pacienteEditado.copy(nombre: value);
-                  },
-                ),
-                TextFormField(
-                  initialValue: viewModel.pacienteEditado.cedula,
-                  decoration: const InputDecoration(
-                    labelText: 'Cedula',
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    viewModel.pacienteEditado =
-                        viewModel.pacienteEditado.copy(cedula: value);
-                  },
-                ),
-                TextFormField(
-                  initialValue: viewModel.pacienteEditado.celular,
-                  decoration: const InputDecoration(
-                    labelText: 'Telefono',
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    viewModel.pacienteEditado =
-                        viewModel.pacienteEditado.copy(celular: value);
-                  },
-                ),
-                TextFormField(
-                  initialValue: viewModel.pacienteEditado.direccion,
-                  decoration: const InputDecoration(
-                    labelText: 'Dirección',
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    viewModel.pacienteEditado =
-                        viewModel.pacienteEditado.copy(direccion: value);
-                  },
-                ),
-                DateTimeFormField(
-                  initialValue: viewModel.pacienteEditado.fechaNacimiento,
-                  decoration: const InputDecoration(
-                    labelText: 'Fecha de Nacimiento',
-                    border: OutlineInputBorder(),
-                  ),
-                  dateFormat: DateFormat('dd/MM/yyyy'),
-                  mode: DateTimeFieldPickerMode.date,
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: (e) =>
-                      (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-                  onDateSelected: (DateTime? value) {
-                    viewModel.pacienteEditado =
-                        viewModel.pacienteEditado.copy(fechaNacimiento: value);
-                  },
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    viewModel.crearPaciente();
-                  },
-                  style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(const Size(150, 50)),
-                  ),
-                  child: const Text('Guardar'),
-                )
-              ],
-            )),
+      body: Center(
+        child: Container(
+          height: 500,
+          width: 500,
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Card(
+            child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      initialValue: viewModel.pacienteEditado.nombre,
+                      decoration: const InputDecoration(
+                        labelText: 'Nombre',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        viewModel.pacienteEditado =
+                            viewModel.pacienteEditado.copy(nombre: value);
+                      },
+                    ),
+                    TextFormField(
+                      initialValue: viewModel.pacienteEditado.cedula,
+                      decoration: const InputDecoration(
+                        labelText: 'Cedula',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        viewModel.pacienteEditado =
+                            viewModel.pacienteEditado.copy(cedula: value);
+                      },
+                    ),
+                    TextFormField(
+                      initialValue: viewModel.pacienteEditado.celular,
+                      decoration: const InputDecoration(
+                        labelText: 'Telefono',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        viewModel.pacienteEditado =
+                            viewModel.pacienteEditado.copy(celular: value);
+                      },
+                    ),
+                    TextFormField(
+                      initialValue: viewModel.pacienteEditado.direccion,
+                      decoration: const InputDecoration(
+                        labelText: 'Dirección',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        viewModel.pacienteEditado =
+                            viewModel.pacienteEditado.copy(direccion: value);
+                      },
+                    ),
+                    DateTimeFormField(
+                      initialValue: viewModel.pacienteEditado.fechaNacimiento,
+                      decoration: const InputDecoration(
+                        labelText: 'Fecha de Nacimiento',
+                        border: OutlineInputBorder(),
+                      ),
+                      dateFormat: DateFormat('dd/MM/yyyy'),
+                      mode: DateTimeFieldPickerMode.date,
+                      autovalidateMode: AutovalidateMode.always,
+                      validator: (e) =>
+                          (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
+                      onDateSelected: (DateTime? value) {
+                        viewModel.pacienteEditado =
+                            viewModel.pacienteEditado.copy(fechaNacimiento: value);
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            viewModel.crearPaciente();
+                          },
+                          style: ButtonStyle(
+                            fixedSize: MaterialStateProperty.all(const Size(150, 50)),
+                          ),
+                          child: const Text('Guardar'),
+                        ),
+                      ],
+                    )
+                  ],
+                )),
+          ),
+        ),
       ),
     );
   }

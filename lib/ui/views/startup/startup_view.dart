@@ -25,27 +25,32 @@ class StartupView extends StackedView<StartupViewModel> {
             ),
             viewModel.errorInStartup
                 ? _buildError(viewModel.errorMessage)
-                : _buildCargando(),
+                : _buildCargando(viewModel.backendMessage),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCargando() {
-    return const Row(
-      mainAxisSize: MainAxisSize.min,
+  Widget _buildCargando(String message) {
+    return  Column(
       children: [
-        Text('Iniciando base de datos...', style: TextStyle(fontSize: 16)),
-        horizontalSpaceSmall,
-        SizedBox(
-          width: 16,
-          height: 16,
-          child: CircularProgressIndicator(
-            color: Colors.black,
-            strokeWidth: 6,
-          ),
-        )
+        const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Iniciando base de datos...', style: TextStyle(fontSize: 16)),
+            horizontalSpaceSmall,
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                color: Colors.black,
+                strokeWidth: 6,
+              ),
+            )
+          ],
+        ),
+        Text(message, style: const TextStyle(fontSize: 16))
       ],
     );
   }

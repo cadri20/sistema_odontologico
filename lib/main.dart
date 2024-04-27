@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:sistema_odontologico/app/app.bottomsheets.dart';
 import 'package:sistema_odontologico/app/app.dialogs.dart';
 import 'package:sistema_odontologico/app/app.locator.dart';

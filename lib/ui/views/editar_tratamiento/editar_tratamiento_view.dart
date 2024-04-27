@@ -20,56 +20,67 @@ class EditarTratamientoView extends StackedView<EditarTratamientoViewModel> {
       appBar: AppBar(
         title: Text(isEditing ? 'Editar Tratamiento' : 'Crear Tratamiento'),
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextFormField(
-                initialValue: viewModel.actividadTratamiento,
-                decoration: const InputDecoration(
-                  labelText: 'Actividad',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  viewModel.actividadTratamiento = value;
-                },
-              ),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                initialValue: viewModel.costoTratamiento == 0
-                    ? ''
-                    : '\$${viewModel.costoTratamiento}',
-                decoration: const InputDecoration(
-                  labelText: 'Costo',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  if (value.contains('\$')) {
-                    value = value.replaceAll('\$', '');
-                  }
-                  double costo;
-                  try {
-                    costo = double.parse(value);
-                  } catch (e) {
-                    costo = 0;
-                  }
-                  viewModel.costoTratamiento = costo;
-                },
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    viewModel.guardarTratamiento();
-                  },
-                  style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(const Size(150, 50)),
-                    padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+      body: Center(
+        child: Container(
+          height: 500,
+          width: 500,
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  TextFormField(
+                    initialValue: viewModel.actividadTratamiento,
+                    decoration: const InputDecoration(
+                      labelText: 'Actividad',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      viewModel.actividadTratamiento = value;
+                    },
                   ),
-                  child: Text('Guardar'))
-            ],
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    initialValue: viewModel.costoTratamiento == 0
+                        ? ''
+                        : '\$${viewModel.costoTratamiento}',
+                    decoration: const InputDecoration(
+                      labelText: 'Costo',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      if (value.contains('\$')) {
+                        value = value.replaceAll('\$', '');
+                      }
+                      double costo;
+                      try {
+                        costo = double.parse(value);
+                      } catch (e) {
+                        costo = 0;
+                      }
+                      viewModel.costoTratamiento = costo;
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            viewModel.guardarTratamiento();
+                          },
+                          style: ButtonStyle(
+                            fixedSize: MaterialStateProperty.all(const Size(150, 50)),
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+                          ),
+                          child: Text('Guardar')),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),

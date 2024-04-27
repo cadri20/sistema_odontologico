@@ -62,13 +62,16 @@ class PacienteDaoRest implements PacienteDao {
     final response = await http
         .get(Uri.parse("$baseUrl?filters[nombre][\$contains]=$nombre"));
     final jsonDecoded = json.decode(response.body)['data'];
-    final pacientes = <Paciente>[];
 
+    return _parsePacientes(jsonDecoded);
+  }
+
+  List<Paciente> _parsePacientes(List<dynamic> jsonDecoded) {
+    final pacientes = <Paciente>[];
     jsonDecoded.forEach((paciente) {
       final pacienteParsed = Paciente.fromJson(paciente);
       pacientes.add(pacienteParsed);
     });
-
     return pacientes;
   }
 
@@ -81,4 +84,18 @@ class PacienteDaoRest implements PacienteDao {
         },
         body: json.encode({'data': paciente.toJson()}));
   }
+
+  @override
+  Future<List<Paciente>> getPacientesOrderedByName(bool ascending) async {
+    final response = await http
+        .get(
+        Uri.parse("$baseUrl?orderBy=nombre:${ascending ? 'asc' : 'desc'}"));
+
+    final jsonDecoded = json.decode(response.body)['data'];
+
+    return _parsePacientes(jsonDecoded);
+  }
+
+
+
 }

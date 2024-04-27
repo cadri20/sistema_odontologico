@@ -29,27 +29,34 @@ class ConfigService {
     _configMap = config.cast<String, String>();
   }
 
-  void startBackend(Function onSuccess,Function(String) onError) async{
-    final String startCommand = _configMap['backend_start_command']!;
-    print(startCommand);
-    backendProcess = await Process.start(
-        startCommand, [],
-        runInShell: true,
-      mode: ProcessStartMode.detachedWithStdio
-    );
-    print("start backend");
+  void startBackend(Function onSuccess,Function(String) onError, Function(String) onMessage) async{
+    try {
+      final String startCommand = _configMap['backend_start_command']!;
+      print(startCommand);
+      //remove last part in command
 
-    backendProcess.stdout.transform(utf8.decoder).listen((data) {
-      print(data);
-      if (data.contains("Welcome back")) {
-        onSuccess();
-      }
-      if (data.contains("error")) {
-        if(data.contains("port")){
-          onError("El puerto 1337 esta ocupado");
+      backendProcess = await Process.start(
+          startCommand, [],
+          runInShell: true,
+          workingDirectory: _configMap['backend_working_directory'],
+        mode: ProcessStartMode.normal
+      );
+      print("start backend");
+
+      backendProcess.stdout.transform(utf8.decoder).listen((data) {
+        onMessage(data);
+        if (data.contains(_configMap['backend_success_message']!)) {
+          onSuccess();
         }
-      }
-    });
+        if (data.contains("Error")) {
+          if(data.contains("port")){
+            onError("El puerto esta ocupado");
+          }
+        }
+      });
+    } on Exception catch (e) {
+      onError(e.toString());
+    }
 
     /*
     backendProcess.exitCode.then((value) {
@@ -58,8 +65,12 @@ class ConfigService {
   }
 
   Future<bool> checkBackend() async{
-    var response = await http.get(Uri.parse(_configMap['url_backend']! + "/api/pacientes"));
-    return response.statusCode == 200;
+    try {
+      var response = await http.get(Uri.parse(_configMap['url_backend']! + "/api/pacientes"));
+      return response.statusCode == 200;
+    } on Exception catch (e) {
+      return false;
+    }
   }
 
   Future<void> stopBackend() async{
