@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sistema_odontologico/ui/common/consultas_table.dart';
 import 'package:sistema_odontologico/ui/common/personal_data_widget.dart';
 import 'package:stacked/stacked.dart';
 
@@ -141,74 +142,7 @@ class DatosTratamientoView extends StackedView<DatosTratamientoViewModel> {
 
   Widget _buildConsultasTable(List<Consulta> consultas,
       DatosTratamientoViewModel viewModel, BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: DataTable(
-          headingRowColor:
-              MaterialStateColor.resolveWith((states) => Colors.black),
-          headingTextStyle: const TextStyle(color: Colors.white),
-          border: const TableBorder(
-            horizontalInside: BorderSide(width: 1, color: Colors.black),
-            top: BorderSide(width: 1, color: Colors.black),
-            bottom: BorderSide(width: 1, color: Colors.black),
-            left: BorderSide(width: 1, color: Colors.black),
-            right: BorderSide(width: 1, color: Colors.black),
-          ),
-          columns: [
-            DataColumn(
-              label: Text('Fecha'),
-              onSort: (columnIndex, ascending) {
-                viewModel.sortByFecha(ascending);
-              },
-            ),
-            DataColumn(label: Text('Actividad realizada')),
-            DataColumn(label: Text('Abono')),
-            DataColumn(label: Text('Indicaciones')),
-            DataColumn(label: Text('Acciones'))
-          ],
-          rows: consultas
-              .map(
-                (consulta) => DataRow(
-                  cells: [
-                    DataCell(
-                        Text(DateFormat('dd/MM/yyyy').format(consulta.fecha))),
-                    DataCell(Text(consulta.actividadRealizada)),
-                    DataCell(Text('\$${consulta.abono}')),
-                    DataCell(Text(consulta.indicaciones)),
-                    DataCell(Row(children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          viewModel.navigateToEditarConsulta(consulta);
-                        },
-                        child: Text('Editar'),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => DeleteDialog(
-                                    onConfirm: () =>
-                                        viewModel.eliminarConsulta(consulta),
-                                    onCancel: () {},
-                                  ));
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.red),
-                        ),
-                        child: Text('Eliminar'),
-                      ),
-                    ]))
-                  ],
-                ),
-              )
-              .toList(),
-        ),
-      ),
-    );
+    return ConsultasTable(consultas: consultas, onUpdateConsultas: viewModel.initialise,);
   }
 
   @override

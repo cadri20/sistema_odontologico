@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:sistema_odontologico/model/consulta.dart' as _i18;
 import 'package:sistema_odontologico/model/paciente.dart' as _i15;
 import 'package:sistema_odontologico/model/tratamiento.dart' as _i16;
-import 'package:sistema_odontologico/ui/views/consultas/consultas_view.dart'
-    as _i9;
 import 'package:sistema_odontologico/ui/views/crear_paciente/crear_paciente_view.dart'
     as _i5;
 import 'package:sistema_odontologico/ui/views/dato_paciente/dato_paciente_view.dart'
@@ -22,7 +20,6 @@ import 'package:sistema_odontologico/ui/views/editar_consulta/editar_consulta_vi
     as _i10;
 import 'package:sistema_odontologico/ui/views/editar_tratamiento/editar_tratamiento_view.dart'
     as _i7;
-import 'package:sistema_odontologico/ui/views/home/home_view.dart' as _i2;
 import 'package:sistema_odontologico/ui/views/login/login_view.dart' as _i13;
 import 'package:sistema_odontologico/ui/views/pacientes/pacientes_view.dart'
     as _i4;
@@ -79,10 +76,6 @@ class Routes {
 class StackedRouter extends _i1.RouterBase {
   final _routes = <_i1.RouteDef>[
     _i1.RouteDef(
-      Routes.homeView,
-      page: _i2.HomeView,
-    ),
-    _i1.RouteDef(
       Routes.startupView,
       page: _i3.StartupView,
     ),
@@ -107,10 +100,6 @@ class StackedRouter extends _i1.RouterBase {
       page: _i8.SeleccionarPacienteView,
     ),
     _i1.RouteDef(
-      Routes.consultasView,
-      page: _i9.ConsultasView,
-    ),
-    _i1.RouteDef(
       Routes.editarConsultaView,
       page: _i10.EditarConsultaView,
     ),
@@ -133,12 +122,6 @@ class StackedRouter extends _i1.RouterBase {
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
-    _i2.HomeView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i2.HomeView(),
-        settings: data,
-      );
-    },
     _i3.StartupView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
@@ -180,12 +163,6 @@ class StackedRouter extends _i1.RouterBase {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i8.SeleccionarPacienteView(args.entidad, key: args.key),
-        settings: data,
-      );
-    },
-    _i9.ConsultasView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i9.ConsultasView(),
         settings: data,
       );
     },

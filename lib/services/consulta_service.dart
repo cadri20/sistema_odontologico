@@ -21,6 +21,11 @@ class ConsultaService {
     return consultas;
   }
 
+  Future<List<Consulta>> getConsultasDePaciente(int idPaciente) async {
+    var consultas = await _dao.getConsultasDePaciente(idPaciente);
+    return consultas;
+  }
+
   Future<void> addConsulta(Consulta consulta) async {
     await _dao.insertConsulta(consulta);
   }
@@ -43,8 +48,9 @@ class ConsultaService {
     var consultasAndPacientesAndTratamiento = <ConsultaAndTratamiento>[];
 
     for (var consulta in consultas) {
-      var tratamiento =
-          await _tratamientoService.getTratamiento(consulta.idTratamiento);
+      int? idTratamiento = consulta.idTratamiento;
+      var tratamiento = idTratamiento != null ?
+          await _tratamientoService.getTratamiento(idTratamiento) : null;
       consultasAndPacientesAndTratamiento.add(ConsultaAndTratamiento(
         consulta: consulta,
         tratamiento: tratamiento,

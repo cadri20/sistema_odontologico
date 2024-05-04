@@ -5,6 +5,7 @@ import 'package:stacked/stacked.dart';
 import '../../../model/consulta.dart';
 import '../../../model/paciente.dart';
 import '../../../model/tratamiento.dart';
+import '../../common/consultas_table.dart';
 import '../../common/delete_dialog.dart';
 import '../../common/personal_data_widget.dart';
 import 'dato_paciente_viewmodel.dart';
@@ -28,6 +29,7 @@ class DatoPacienteView extends StackedView<DatoPacienteViewModel> {
         child: Column(
           children: [
             _buildDatosPacienteWithMap(paciente),
+            _buildConsultasSection(viewModel.consultas, viewModel),
             _buildTratamientosSection(
                 viewModel.tratamientos, context, viewModel),
           ],
@@ -73,6 +75,48 @@ class DatoPacienteView extends StackedView<DatoPacienteViewModel> {
                   viewModel.navigateToEditarTratamiento,
                   viewModel.eliminarTratamiento,
                   viewModel.navigateToDatosTratamiento),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildConsultasSection(List<Consulta> consultas, DatoPacienteViewModel viewModel){
+    return Expanded(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const Text(
+                'Consultas',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      viewModel.navigateToCrearConsulta();
+                    },
+                    style: ButtonStyle(
+                      fixedSize: MaterialStateProperty.all(const Size(150, 50)),
+                      padding:
+                          MaterialStateProperty.all(const EdgeInsets.all(0)),
+                    ),
+                    child: const Text(
+                      'Nueva Consulta',
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ConsultasTable(consultas: consultas, onUpdateConsultas: viewModel.initialise)
             ],
           ),
         ),

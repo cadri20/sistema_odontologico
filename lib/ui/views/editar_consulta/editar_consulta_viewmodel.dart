@@ -34,10 +34,12 @@ class EditarConsultaViewModel extends BaseViewModel implements Initialisable {
   Future<void> initialise() async {
     if (isEditing) {
       //nombrePaciente.value = TextEditingValue(text: (await _pacienteService.getPaciente(_consultaEditar.idPaciente)).nombre);
+      String text;
+      final idTratamiento = _consultaEditar.idTratamiento;
+      text = idTratamiento != null ? (await _tratamientoService.getTratamiento(idTratamiento)).actividad : '';
+
       nombreTratamiento.value = TextEditingValue(
-          text: (await _tratamientoService
-                  .getTratamiento(_consultaEditar.idTratamiento))
-              .actividad);
+          text: text);
     }
     rebuildUi();
   }

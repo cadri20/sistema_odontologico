@@ -16,7 +16,7 @@ class DatoPacienteViewModel extends BaseViewModel implements Initialisable {
 
   final Paciente paciente;
   List<Tratamiento> tratamientos = [];
-  List<ConsultaAndTratamiento> consultas = [];
+  List<Consulta> consultas = [];
 
   DatoPacienteViewModel(this.paciente);
 
@@ -25,7 +25,7 @@ class DatoPacienteViewModel extends BaseViewModel implements Initialisable {
     tratamientos =
         await _tratamientoService.getTratamientosDePaciente(paciente.id);
     consultas = await _consultaService
-        .getConsultasAndTratamientosDePaciente(paciente.id);
+        .getConsultasDePaciente(paciente.id);
     rebuildUi();
   }
 
@@ -50,6 +50,15 @@ class DatoPacienteViewModel extends BaseViewModel implements Initialisable {
         .navigateToEditarTratamientoView(
             tratamiento: Tratamiento.empty().copy(idPaciente: paciente.id),
             isEditing: false)
+        .then((value) {
+      if (value != null) {
+        initialise();
+      }
+    });
+  }
+
+  void navigateToCrearConsulta() {
+    _navigationService.navigateToEditarConsultaView(consulta: Consulta.empty().copy(idPaciente: paciente.id, idTratamiento: null), isEditing: false)
         .then((value) {
       if (value != null) {
         initialise();

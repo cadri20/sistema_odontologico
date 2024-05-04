@@ -8,6 +8,8 @@ import '../app/app.locator.dart';
 import 'consulta_dao.dart';
 import 'package:http/http.dart' as http;
 
+import 'paciente_dao_rest.dart';
+
 class ConsultaDaoRest implements ConsultaDao {
   late String baseUrl;
   String _token;
@@ -47,6 +49,21 @@ class ConsultaDaoRest implements ConsultaDao {
   }
 
   @override
+  Future<List<Consulta>> getConsultasDePaciente(int idPaciente) async {
+    final response = await http.get(
+        Uri.parse("${PacienteDaoRest.baseUrl}/$idPaciente/consultas"));
+    final jsonDecoded = json.decode(response.body)['data'];
+
+    final consultas = <Consulta>[];
+    jsonDecoded.forEach((consulta) {
+      final consultaParsed = Consulta.fromJson(consulta);
+      consultas.add(consultaParsed);
+    });
+
+    return consultas;
+  }
+
+  @override
   Future<List<Consulta>> getConsultasDeTratamiento(int idTratamiento) async {
     final response = await http.get(
         Uri.parse("${TratamientoDaoRest.baseUrl}/$idTratamiento/consultas"));
@@ -63,12 +80,13 @@ class ConsultaDaoRest implements ConsultaDao {
 
   @override
   Future<void> insertConsulta(Consulta consulta) async {
+    final jsonConsulta = json.encode({'data': consulta.toJson()});
     final response = await http.post(Uri.parse(baseUrl),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $_token'
         },
-        body: json.encode({'data': consulta.toJson()}));
+        body: jsonConsulta);
     print("response: ${response.body}");
   }
 
