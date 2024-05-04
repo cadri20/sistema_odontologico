@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 windows/flutter
+windows/flutter/generated_plugin_registrant.cc
 
 # Symbolication related
 app.*.symbols
