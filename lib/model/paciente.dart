@@ -11,8 +11,9 @@ class Paciente {
   int? get edad{
     if(fechaNacimiento == null) return null;
     final now = DateTime.now();
-    final age = now.year - fechaNacimiento!.year;
-    return age;
+    final period = fechaNacimiento?.difference(now);
+
+    return period == null ? null : period.inDays.abs() ~/ 365;
   }
 
   Paciente({
